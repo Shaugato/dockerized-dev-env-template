@@ -6,11 +6,12 @@ FROM python:3.9-slim
 # 2. Set working directory
 WORKDIR /usr/src/app
 
-# 3. Install system dependencies
+# Install system dependencies (including curl)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        build-essential \
-        libpq-dev && \
+      build-essential \
+      libpq-dev \
+      curl && \
     rm -rf /var/lib/apt/lists/*
 
 # 4. Copy and install Python dependencies

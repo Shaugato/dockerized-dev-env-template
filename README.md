@@ -33,7 +33,7 @@ Setting up a local dev environment with multiple services can be error-prone and
    ```bash
    git clone https://github.com/yourusername/dockerized-dev-env-template.git
    cd dockerized-dev-env-template
-````
+
 
 2. **Copy `.env.example` to `.env`**
 

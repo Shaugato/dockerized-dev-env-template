@@ -31,8 +31,7 @@ Setting up a local dev environment with multiple services can be error-prone and
 
 1. **Clone this repo**  
    ```bash
-   git clone https://github.com/yourusername/dockerized-dev-env-template.git
-   cd dockerized-dev-env-template
+   git clone https://github.com/Shaugato/dockerized-dev-env-template.git
 
 
 2. **Copy `.env.example` to `.env`**

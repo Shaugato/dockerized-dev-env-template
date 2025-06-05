@@ -1,4 +1,3 @@
-````markdown
 # Dockerized Dev Environment Template
 
 > **TL;DR**  

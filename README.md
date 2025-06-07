@@ -29,10 +29,10 @@ Setting up a local dev environment with multiple services can be error-prone and
 
 ## 🚀 Quick Start
 
-1. **Clone this repo**  
+1. **Clone this repo**
    ```bash
    git clone https://github.com/Shaugato/dockerized-dev-env-template.git
-
+   ```
 
 2. **Copy `.env.example` to `.env`**
 

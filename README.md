@@ -115,9 +115,8 @@ services:
 
 ## ✅ Running Tests
 
-This project includes a small [Pytest](https://docs.pytest.org/) suite that
-validates the Flask endpoints and the SQL migrations. The tests run against a
-temporary SQLite database so Docker isn't required.
+This project includes a [Pytest](https://docs.pytest.org/) suite that
+validates the Flask endpoints and the SQL migrations.
 
 1. **Install dependencies**
    ```bash

@@ -5,6 +5,11 @@ services:
     image: postgres:13-alpine
     container_name: dev-db
     restart: unless-stopped
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.dev-db
     env_file:
       - .env
     volumes:
@@ -17,6 +22,11 @@ services:
     image: adminer:latest
     container_name: dev-adminer
     restart: unless-stopped
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.dev-adminer
     ports:
       - "8080:8080"
     networks:
@@ -28,6 +38,11 @@ services:
       dockerfile: Dockerfile
     container_name: dev-app
     restart: unless-stopped
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.dev-app
     env_file:
       - .env
     depends_on:
@@ -41,6 +56,11 @@ services:
     image: nginx:latest
     container_name: dev-nginx
     restart: unless-stopped
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.dev-nginx
     ports:
       - "80:80"
     volumes:
@@ -51,8 +71,49 @@ services:
     networks:
       - devnet
 
+  fluentd:
+    image: fluent/fluentd:v1.16-1
+    container_name: dev-fluentd
+    restart: unless-stopped
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf:ro
+    networks:
+      - devnet
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    container_name: dev-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - devnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.1
+    container_name: dev-kibana
+    restart: unless-stopped
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - devnet
+
 volumes:
   db-data:
+  esdata:
 
 networks:
   devnet:

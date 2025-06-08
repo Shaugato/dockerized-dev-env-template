@@ -8,16 +8,17 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: fluentd:24224
         tag: docker.dev-db
-        fluentd-async-connect: "true"
     env_file:
       - .env
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    networks:
-      - devnet
+      networks:
+        - devnet
+      depends_on:
+        - fluentd
 
   adminer:
     image: adminer:latest
@@ -26,13 +27,14 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: fluentd:24224
         tag: docker.dev-adminer
-        fluentd-async-connect: "true"
     ports:
       - "8080:8080"
     networks:
       - devnet
+    depends_on:
+      - fluentd
 
   app:
     build:
@@ -43,13 +45,13 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: fluentd:24224
         tag: docker.dev-app
-        fluentd-async-connect: "true"
     env_file:
       - .env
     depends_on:
       - db
+      - fluentd
     ports:
       - "5000:5000"
     networks:
@@ -62,9 +64,8 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: fluentd:24224
         tag: docker.dev-nginx
-        fluentd-async-connect: "true"
     ports:
       - "80:80"
     volumes:
@@ -72,6 +73,7 @@ services:
     depends_on:
       - app
       - adminer
+      - fluentd
     networks:
       - devnet
 

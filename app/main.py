@@ -2,6 +2,7 @@
 
 import os
 import psycopg2
+import sqlite3
 from flask import Flask, jsonify
 
 app = Flask(__name__)
@@ -10,8 +11,16 @@ app = Flask(__name__)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
+    """Return a database connection.
+
+    Supports PostgreSQL via psycopg2 and SQLite for local testing when
+    ``DATABASE_URL`` starts with ``sqlite://``.
+    """
+    url = os.getenv("DATABASE_URL", DATABASE_URL)
+    if url and url.startswith("sqlite://"):
+        path = url[len("sqlite://") :]
+        return sqlite3.connect(path)
+    return psycopg2.connect(url)
 
 @app.route("/")
 def index():

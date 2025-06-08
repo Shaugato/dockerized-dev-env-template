@@ -110,3 +110,25 @@ services:
     networks:
       - devnet
 ```
+
+---
+
+## ✅ Running Tests
+
+This project includes a small [Pytest](https://docs.pytest.org/) suite that
+validates the Flask endpoints and the SQL migrations. The tests run against a
+temporary SQLite database so Docker isn't required.
+
+1. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   (Pytest ships with the dev container and doesn't need a separate install.)
+
+2. **Execute the tests**
+   ```bash
+   pytest -q
+   ```
+
+The suite loads `db/init.sql`, sets up a temporary database, and then issues
+HTTP requests to the Flask app using its test client. All tests should pass.

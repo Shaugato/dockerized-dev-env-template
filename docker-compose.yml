@@ -10,6 +10,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.dev-db
+        fluentd-async-connect: "true"
     env_file:
       - .env
     volumes:
@@ -27,6 +28,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.dev-adminer
+        fluentd-async-connect: "true"
     ports:
       - "8080:8080"
     networks:
@@ -43,6 +45,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.dev-app
+        fluentd-async-connect: "true"
     env_file:
       - .env
     depends_on:
@@ -61,6 +64,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.dev-nginx
+        fluentd-async-connect: "true"
     ports:
       - "80:80"
     volumes:

@@ -46,7 +46,7 @@ Setting up a local dev environment with multiple services can be error-prone and
 3. **Build & spin up containers**
 
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
    * **Flask app** → [http://localhost](http://localhost)

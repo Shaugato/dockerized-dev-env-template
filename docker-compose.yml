@@ -8,7 +8,8 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
         tag: docker.dev-db
     env_file:
       - .env
@@ -27,7 +28,8 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
         tag: docker.dev-adminer
     ports:
       - "8080:8080"
@@ -45,7 +47,8 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
         tag: docker.dev-app
     env_file:
       - .env
@@ -64,7 +67,8 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
         tag: docker.dev-nginx
     ports:
       - "80:80"

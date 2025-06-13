@@ -37,6 +37,11 @@ jobs:
             echo "Waiting for services..."
             sleep 5
           done
+          if ! curl -s http://localhost:9200 >/dev/null || ! curl -s http://localhost/health >/dev/null; then
+            echo "Services failed to start"
+            docker compose logs
+            exit 1
+          fi
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
@@ -46,4 +51,5 @@ jobs:
 
       - name: Tear down
         if: always()
-        run: docker compose down -v
+        run: |
+          docker compose down -v --remove-orphans --timeout 30

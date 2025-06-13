@@ -11,9 +11,10 @@ Setting up a local dev environment with multiple services can be error-prone and
 
 - A **Flask** web application (Python 3.9)  
 - A **PostgreSQL** database (v13) with initial seed SQL  
-- **Adminer** (lightweight DB GUI) for quick table browsing  
-- An **Nginx** reverse proxy (routes `/` → Flask, `/adminer` → Adminer)  
-- A single `docker-compose.yml` to orchestrate everything  
+- **Adminer** (lightweight DB GUI) for quick table browsing
+- An **Nginx** reverse proxy (routes `/` → Flask, `/adminer` → Adminer)
+- An **EFK** stack (Elasticsearch + Fluentd + Kibana) that centralizes all container logs
+- A single `docker-compose.yml` to orchestrate everything
 - A **GitHub Actions** workflow that builds and tests the Docker images  
 - A clean `.env.example` for easy environment configuration  
 
@@ -45,12 +46,13 @@ Setting up a local dev environment with multiple services can be error-prone and
 3. **Build & spin up containers**
 
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
    * **Flask app** → [http://localhost](http://localhost)
    * **Adminer GUI** → [http://localhost/adminer](http://localhost/adminer)
    * (Nginx listens on port 80)
+   * Kibana UI → [http://localhost:5601](http://localhost:5601) (all container logs)
 
 4. **Verify**
 
@@ -87,6 +89,11 @@ Setting up a local dev environment with multiple services can be error-prone and
   * Username/Password: from `.env`
   * Database: `devdb`
 
+* **Kibana (Logs UI)**
+
+  * URL: [http://localhost:5601](http://localhost:5601)
+  * Elasticsearch host: `elasticsearch:9200`
+
 ---
 
 ## 📦 How to Extend
@@ -122,7 +129,7 @@ validates the Flask endpoints and the SQL migrations.
    ```bash
    pip install -r requirements.txt
    ```
-   (Pytest ships with the dev container and doesn't need a separate install.)
+   (This installs Pytest along with the app requirements.)
 
 2. **Execute the tests**
    ```bash

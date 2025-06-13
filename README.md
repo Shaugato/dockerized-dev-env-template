@@ -129,7 +129,7 @@ validates the Flask endpoints and the SQL migrations.
    ```bash
    pip install -r requirements.txt
    ```
-   (Pytest ships with the dev container and doesn't need a separate install.)
+   (This installs Pytest along with the app requirements.)
 
 2. **Execute the tests**
    ```bash
